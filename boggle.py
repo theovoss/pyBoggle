@@ -49,7 +49,11 @@ class Board:
                 try:
                     self.wordhash = self._loadWordHash()
                 except:
-                    self.wordhash = self._makeWordHash(path='TWL06.txt')
+                    path = 'TWL06.txt'
+                    if os.path.exists(path):
+                        with open(path, 'r') as f:
+                            wordlist = f.read().lower().split(string.digits + string.whitespace + string.punctuation)
+                            self.wordhash = self._makeWordHash(wordlist)
 
         # Try to parse input layout into array of strings, otherwise, generate
         # a random layout
