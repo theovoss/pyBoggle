@@ -4,6 +4,8 @@ import multiprocessing as mp
 import os
 import string
 
+from bogglesolver.twl06 import WORD_LIST
+
 
 class Board:
     def __init__(self, shape=(4, 4), layout=None, wordlist=None):
@@ -49,11 +51,8 @@ class Board:
                 try:
                     self.wordhash = self._loadWordHash()
                 except:
-                    path = 'TWL06.txt'
-                    if os.path.exists(path):
-                        with open(path, 'r') as f:
-                            wordlist = f.read().lower().split(string.digits + string.whitespace + string.punctuation)
-                            self.wordhash = self._makeWordHash(wordlist)
+                    wordlist = WORD_LIST
+                    self.wordhash = self._makeWordHash(wordlist)
 
         # Try to parse input layout into array of strings, otherwise, generate
         # a random layout
@@ -61,7 +60,12 @@ class Board:
         if isinstance(layout, str):
             layout = layout.lower().split(string.digits + string.whitespace + string.punctuation)
         if layout is None or len(layout) < shape[0] * shape[1]:
-            layout = [random.choice(diceVal) for _i in range(self.shape[0] * self.shape[1])]
+            combined_words = ''.join(WORD_LIST)
+            layout = []
+            for i in range(self.shape[0] * self.shape[1]):
+                random_number = random.randint(0, len(combined_words) - 1)
+                layout.append(combined_words[random_number])
+            # layout = [random.choice(diceVal) for _i in range(self.shape[0] * self.shape[1])]
 
         # Construct board. Internally board is represented
         # as dictionary where keys are tuple coordinates, (row, column),

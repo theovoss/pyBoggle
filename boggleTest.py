@@ -41,17 +41,25 @@ class SpeedTests(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test4x4Serial(self):
+        print("4x4   findWords():     ", timeit.timeit("game.findWords()", "import boggle; game=boggle.Board((4, 4))", number=10) / 10.0)
+
     def test10x10Serial(self):
         print("10x10   findWords():   ", timeit.timeit("game.findWords()", "import boggle; game=boggle.Board((10, 10))", number=10) / 10.0)
-
-    def test10x10Parallel(self):
-        print("10x10   findWordsMP(): ", timeit.timeit("game.findWordsMP()", "import boggle; game=boggle.Board((10, 10))", number=4) / 4.0)
 
     def test100x100Serial(self):
         print("100x100 findWords():   ", timeit.timeit("game.findWords()", "import boggle; game=boggle.Board((100, 100))", number=1))
 
-    def test100x100Parallel(self):
-        print("100x100 findWordsMP(): ", timeit.timeit("game.findWordsMP()", "import boggle; game=boggle.Board((100, 100))", number=1))
+    def testTheo100x100Serial(self):
+        print("Theo's 100x100 solve():", timeit.timeit("game.solve()", "from bogglesolver import solve_boggle; game=solve_boggle.SolveBoggle(); game.set_board(100, 100)", number=10) / 10)
+
+    def testTheo10x10Serial(self):
+        print("Theo's 10x10 solve():  ", timeit.timeit("game.solve()", "from bogglesolver import solve_boggle; game=solve_boggle.SolveBoggle(); game.set_board(10, 10)", number=10) / 10)
+
+    def testTheo4x4Serial(self):
+        print("Theo's 4x4 solve():    ", timeit.timeit("game.solve()", "from bogglesolver import solve_boggle; game=solve_boggle.SolveBoggle(); game.set_board(4, 4)", number=10) / 10)
+
+
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']
